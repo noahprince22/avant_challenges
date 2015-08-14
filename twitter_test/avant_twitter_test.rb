@@ -1,7 +1,6 @@
 require 'tweetstream'
 require 'pqueue'
 require 'yaml'
-require 'pry'
 
 class AvantTwitterTest
   def initialize
@@ -58,7 +57,6 @@ class AvantTwitterTest
     EM.run do
       client = TweetStream::Client.new
       client.sample(language: "en") do |status|
-        puts status.text
         status.text.split.each do |word|
           word_freq_hash[word] += 1 unless @stop_words.include? word.downcase
         end

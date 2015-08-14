@@ -24,7 +24,7 @@ describe ("AvantTwitterTest") do
   # Note that we can't really test what it's going to pull, and mocking out
   #   the TweetStream client would be overkill for this project
   it ("can extract the most common words from tweets") do
-    result = AvantTwitterTest.new.get_most_common_words_from_tweets_over_interval(10, 1)
+    result = AvantTwitterTest.new.get_most_common_words_from_tweets_over_interval(10, 5)
 
     result.each_with_index do |result, index|
       puts "#{index + 1}: #{result[0]}"
