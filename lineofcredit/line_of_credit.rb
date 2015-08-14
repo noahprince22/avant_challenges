@@ -14,9 +14,11 @@ class LineOfCredit
     @payment_period_start = Time.now
     
     monthly_update_thread = Thread.new {
-      sleep(1.months)
-
-      close_payment_period
+      while(true) do
+        sleep(1.months)
+        
+        close_payment_period
+      end
     }
 
     # Stop the thread when garbage collected
