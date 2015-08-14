@@ -21,7 +21,7 @@ def calculate_interest(amount, apr, days)
   return ((amount * apr)/(365)) * days
 end
 
-RSpec.describe LineOfCredit, '#draw' do
+describe LineOfCredit, '#draw' do
   before(:each) do
     time_travel_to 30.days.ago
     @credit_total = 1000
@@ -128,7 +128,7 @@ RSpec.describe LineOfCredit, '#draw' do
   end
 end
 
-RSpec.describe LineOfCredit, '#pay' do
+describe LineOfCredit, '#pay' do
   before(:each) do
     @credit_total = 1000
     @apr = 0.35

@@ -26,7 +26,7 @@ class LineOfCredit
 
   # Pays a given amount from this line of credit
   #
-  # ==== Attributes
+  # ==== Parameters
   #
   # * +amount+ - The amount to pay for this line of credit
   #                  must be greater than 0 and less than or equal to the payoff
@@ -45,7 +45,7 @@ class LineOfCredit
 
   # Draws a given amount from this line of credit
   #
-  # ==== Attributes
+  # ==== Parameters
   #
   # * +amount+ - The amount to draw from this line of credit.
   #                  must be greater than 0 and less than or equal to
@@ -71,7 +71,6 @@ class LineOfCredit
 
 
   # Adds the interest for the payment period and closes the ledger for this period
-  #   THIS IS NOT A PUBLIC METHOD, executes on a monthly basis
   #   Will only execute at the end of a 30 day period
   def close_payment_period
     if days_between(Time.now, @payment_period_start) >= 30
@@ -108,6 +107,8 @@ class LineOfCredit
     end    
   end
 
+  private
+  
   def calculate_interest(amount, days)
     return ((amount * @apr)/(365)) * days
   end
