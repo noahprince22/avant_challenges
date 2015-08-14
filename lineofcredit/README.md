@@ -23,17 +23,15 @@ To get information about the line of credit:
     credit.remaining_credit # The remaining credit limit
     credit.balance # The principle balance
     credit.interest # The total interest accrued that hasn't been paid
-    credit.total_payoff # The total amount that needs to be paid, principle = interest
+    credit.total_payoff # The total amount that needs to be paid, principle + interest
     
 #### Testing
 
-The rspec test contains my interpretation of the challenge interface.
-
-While it's not holistic, it covers enough test cases to ensure that the class is functioning as intended. It will also serve to show the expected use and my interpretation of the problem. To run these tests, simply run
+The rspec test, while not covering all possible inputs, covers enough test cases to ensure that the class is functioning as intended. It will also serve to show the expected use and my interpretation of the challenge. To run these tests, simply run
 
     bundle exec rspec
 
 
 Note that this interface, once created, kicks off a thread that runs once a month. When the garbage collector comes for this instance, the thread is properly killed. This thread functionality cannot be tested with rspec, so close_payment_period must be called manually
 
-The tests depend on the Delorian gem, which allows the tests to, with some limitations, mimic the user interacting over the course of several days.
+The tests depend on the Delorian gem; this allows the tests to, with some limitations, mimic the user interacting over the course of several days.
