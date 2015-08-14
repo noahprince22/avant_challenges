@@ -1,4 +1,4 @@
-##twitter test challenge
+## Twitter Test Challenge
 
 To see the top ten words in the past five minutes on the twitter stream, just run
 

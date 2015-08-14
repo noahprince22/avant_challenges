@@ -1,7 +1,7 @@
-# avant_challenges
+# Avant Challenges
 Both of the challenges were coded in ruby
 
-#### Setup instructions:
+#### Setup Instructions:
 
 * Clone this repo
 * `cd` into the desired challenge directory

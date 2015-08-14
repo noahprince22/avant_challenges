@@ -1,4 +1,4 @@
-## line of credit challenge
+## Line of Credit Challenge
 
 #### Implementation
 
