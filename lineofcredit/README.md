@@ -35,3 +35,9 @@ The rspec test, while not covering all possible inputs, covers enough test cases
 Note that this interface, once created, kicks off a thread that runs once a month. When the garbage collector comes for this instance, the thread is properly killed. This thread functionality cannot be tested with rspec, so close_payment_period must be called manually
 
 The tests depend on the Delorian gem; this allows the tests to, with some limitations, mimic the user interacting over the course of several days.
+
+#### Data Persistance
+
+This implementation only persists ledger data in memory, once the process stops, the data is lost. Additionally, this implementation discards all ledger data after calculating interest for the payment period; this is to preserve space in memory. Because the interface doesn't allow querying for past ledgure data, discarding is not an issue. 
+
+For enterprise use, a tool like this would likely sit on top of a database and would persist all payment data for each line of credit, and would allow querying of that data.
