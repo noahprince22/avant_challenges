@@ -1,5 +1,4 @@
-require 'pry'
-
+# An interface to implement the Avant programming challenges line of credit
 class LineOfCredit
   attr_reader :remaining_credit, :balance, :interest, :apr
   
@@ -33,8 +32,17 @@ class LineOfCredit
   def pay(amount)
     raise "Cannot pay a negative amount" if amount < 0
     raise "Cannot pay more than the current total payoff" if amount > total_payoff
-    
-    @balance = @balance - amount
+
+    if interest > 0
+      @interest -= amount
+
+      if @interest < 0
+        @balance += @interest
+        @interest = 0
+      end
+    else
+      @balance = @balance - amount
+    end
     
     @ledger.push({
       amount: -amount,

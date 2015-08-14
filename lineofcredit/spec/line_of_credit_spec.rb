@@ -114,8 +114,6 @@ describe LineOfCredit, '#draw' do
 
     it ("appropriately adds interest after 30 days and resets") do
       jump (30 - @draw3_days - @draw2_days - @draw1_days).days
-
-      # Must call close_payment_period because Delorian does not affect thread sleeping
       @credit.close_payment_period
 
       interest1 = calculate_interest(@draw1, @apr, @draw1_days)
@@ -172,6 +170,13 @@ describe LineOfCredit, '#pay' do
 
       @credit.pay @pay2
       jump @pay2_days.days
+
+      interest1 = calculate_interest(@draw1, @apr, @draw1_days)
+      interest2 = calculate_interest(@draw1-@pay1, @apr, @pay1_days)
+      interest3 = calculate_interest(@draw1-@pay1+@draw2, @apr, @draw2_days)
+      interest4 = calculate_interest(@draw1-@pay1+@draw2-@pay2, @apr, 30 - @pay1_days - @draw1_days - @draw2_days)
+
+      @total_interest = interest1 + interest2 + interest3 + interest4
     end
 
     it ("updates the does not change the remaining credit") do
@@ -184,19 +189,25 @@ describe LineOfCredit, '#pay' do
 
     it ("appropriately adds interest after 30 days") do
       # Jump to the end of the month
-      jump (31-@pay2_days-@pay1_days-@draw1_days-@draw2_days).days
-
-      # Must call close_payment_period because Delorian does not affect thread sleeping
+      jump (30-@pay2_days-@pay1_days-@draw1_days-@draw2_days).days
       @credit.close_payment_period
 
-      interest1 = calculate_interest(@draw1, @apr, @draw1_days)
-      interest2 = calculate_interest(@draw1-@pay1, @apr, @pay1_days)
-      interest3 = calculate_interest(@draw1-@pay1+@draw2, @apr, @draw2_days)
-      interest4 = calculate_interest(@draw1-@pay1+@draw2-@pay2, @apr, 30 - @pay1_days - @draw1_days - @draw2_days)
-
       total_principle = @draw1-@pay1+@draw2-@pay2
-      total_payoff = total_principle + interest1+interest2+interest3+interest4
+      total_payoff = total_principle + @total_interest
       expect(@credit.total_payoff).to(eq(total_payoff))
+    end
+
+    it ("subtracts debt from interest first, then principle balance") do
+      jump (30-@pay2_days-@pay1_days-@draw1_days-@draw2_days).days
+      @credit.close_payment_period
+
+      expect(@credit.interest).to(eq(@total_interest))
+
+      prev_balance = @credit.balance
+
+      @credit.pay(@total_interest + 5)
+      expect(@credit.interest).to(eq(0))
+      expect(@credit.balance).to(eq(prev_balance-5))
     end
   end
 end
