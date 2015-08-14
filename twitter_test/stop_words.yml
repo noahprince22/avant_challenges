@@ -1,4 +1,6 @@
-:words: [    'a',
+:words: [
+# Taken from the internet
+'a',
 'about',
 'above',
 'after',
@@ -172,5 +174,9 @@
 'yours',
 'yourself',
 'yourselves',
-'zero'
+'zero',
+'&amp;',
+'-',
+'you',
+'u'
 ]

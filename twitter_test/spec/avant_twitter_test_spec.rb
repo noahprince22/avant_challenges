@@ -26,7 +26,10 @@ describe ("AvantTwitterTest") do
   it ("can extract the most common words from tweets") do
     result = AvantTwitterTest.new.get_most_common_words_from_tweets_over_interval(10, 1)
 
-    puts result
+    result.each_with_index do |result, index|
+      puts "#{index + 1}: #{result[0]}"
+    end
+    
     expect(result.size).to eq(10)
   end
 end

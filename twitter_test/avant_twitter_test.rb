@@ -22,7 +22,9 @@ class AvantTwitterTest
   # * +limit+ - the number of words to get
   # * +interval+ - The time interval to collect tweets over (in minutes)
   def get_most_common_words_from_tweets_over_interval(limit, interval)
+    puts "gathering tweets..."
     words = collect_words_from_tweets_over_interval(interval)
+    puts "calculating most used words..."
     return get_most_common_words(limit, words)
   end
   
@@ -42,9 +44,6 @@ class AvantTwitterTest
 
     return ret
   end
-
-
-  private
   
   # Collects tweets from the twitter streaming API over the course of the interval
   #   and stores the count of each word in a hash, which it returns
@@ -54,36 +53,12 @@ class AvantTwitterTest
   # * +interval+ - the time interval (integer number of minutes)
   def collect_words_from_tweets_over_interval(interval)
     word_freq_hash = Hash.new
-    
-#    EM.run do
-      client = TweetStream::Client.new
-      client.sample do |status|
-        binding.pry
-        puts "#{status.text}"
-        status.text.split.each do |word|
-          word_freq_hash[word] += 1 unless @stop_words.include? word.downcase
-        end
-      end
-
-#      EM::PeriodicTimer.new(interval.minutes) do
-#        client.stop
-#      end
- #   end
-  end
-
-  
-  # Collects tweets from the twitter streaming API over the course of the interval
-  #   and stores the count of each word in a hash, which it returns
-  #
-  # ==== Parameters
-  #
-  # * +interval+ - the time interval (integer number of minutes)
-  def collect_words_from_tweets_over_interval(interval)
-    word_freq_hash = Hash.new
+    word_freq_hash.default = 0
     
     EM.run do
       client = TweetStream::Client.new
-      client.sample do |status|
+      client.sample(language: "en") do |status|
+        puts status.text
         status.text.split.each do |word|
           word_freq_hash[word] += 1 unless @stop_words.include? word.downcase
         end
@@ -93,5 +68,7 @@ class AvantTwitterTest
         client.stop
       end
     end
+
+    return word_freq_hash
   end
 end
