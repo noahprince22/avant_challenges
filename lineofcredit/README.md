@@ -38,6 +38,6 @@ The tests depend on the Delorian gem; this allows the tests to, with some limita
 
 #### Data Persistance
 
-This implementation only persists ledger data in memory, once the process stops the data is lost. Additionally, this implementation discards all ledger data after calculating interest for the month; this is to preserve space in memory and ensure faster calculations. Because the interface doesn't allow querying of past ledgure data, discarding is not an issue. 
+This implementation only persists ledger data in memory, once the process stops, the data is lost. Additionally, this implementation discards all ledger data after calculating interest for the payment period; this is to preserve space in memory. Because the interface doesn't allow querying for past ledgure data, discarding is not an issue. 
 
-For enterprise use, a tool like this would likely sit on top of a database and would persist all payment data for each line of credit. 
+For enterprise use, a tool like this would likely sit on top of a database and would persist all payment data for each line of credit, and would allow querying of that data.
